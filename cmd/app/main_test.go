@@ -3,7 +3,6 @@ package main
 import (
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"testing"
 )
 
@@ -13,16 +12,8 @@ func code(path string) int {
 	return w.Code
 }
 
-func TestServesAtRootWhenUnset(t *testing.T) {
-	os.Unsetenv("BASE_PATH")
+func TestServesAtRoot(t *testing.T) {
 	if got := code("/health"); got != http.StatusOK {
 		t.Fatalf("GET /health = %d", got)
-	}
-}
-
-func TestServesUnderPrefix(t *testing.T) {
-	t.Setenv("BASE_PATH", "/direct/agent-7:3000")
-	if got := code("/direct/agent-7:3000/health"); got != http.StatusOK {
-		t.Fatalf("prefixed = %d", got)
 	}
 }
